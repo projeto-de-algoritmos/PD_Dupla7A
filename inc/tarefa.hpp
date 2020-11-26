@@ -8,8 +8,9 @@ class Tarefa {
         int hrI, hrF, minI, minF;
         string descricao; 
     public:
-        Tarefa(int hrI, int hrF, int minI, int minF);
+        Tarefa(int hrI, int hrF, int minI, int minF, string descricao);
         void mostrarInfos();  
+        void formatarHorario(int h, int min); 
 
 
 };
