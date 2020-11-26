@@ -30,6 +30,11 @@ int InterfacePrincipal::getInt(string mensagem, int min, int max) {
     return valor;
 }
 
+void InterfacePrincipal::spam(string mensagem){
+    system("clean || cls "); 
+    cout << mensagem << endl; 
+
+}
 InterfacePrincipal::InterfacePrincipal(){}
 
 void InterfacePrincipal::menuPrincipal() {
@@ -62,7 +67,7 @@ void InterfacePrincipal::menuPrincipal() {
 
         }
         else if(escolha ==  7){
-            
+
         }
         else
             break; 
@@ -71,7 +76,7 @@ void InterfacePrincipal::menuPrincipal() {
 }
 
 void InterfacePrincipal::novaTarefa(){
-
+    
 }
 
 void InterfacePrincipal::verTarefas(){

@@ -14,6 +14,7 @@ class InterfacePrincipal {
         InterfacePrincipal(); 
         string getString(string mensagem); 
         int getInt(string mensagem, int min, int max); 
+        void spam(string mensagem); 
         void menuPrincipal();
         void novaTarefa(); 
         void verTarefas(); 
