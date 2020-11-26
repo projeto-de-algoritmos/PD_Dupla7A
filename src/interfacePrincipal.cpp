@@ -1,4 +1,5 @@
 #include "InterfacePrincipal.hpp"
+#include <iomanip>
 
 string InterfacePrincipal::getString(string mensagem) {
     string entrada;
@@ -112,7 +113,10 @@ void InterfacePrincipal::novaTarefa(){
 }
 
 void InterfacePrincipal::verTarefas(){
-    
+    for(int i = 0; i < (int)tarefas.size(); i++) {
+        tarefas[i].mostrarInfos();
+        cout << setw(50) << setfill('-') << "\n\n";
+    }
 }
 
 void InterfacePrincipal::NovoIntervalo(){

@@ -1,4 +1,5 @@
 #include "tarefa.hpp"
+#include <iomanip>
 
 Tarefa::Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau){
     this->descricao = descricao;
@@ -14,8 +15,10 @@ void Tarefa::mostrarInfos(){
     cout << "Tarefa: " << descricao << endl;
     cout << "Horário de início: ";
     formatarHorario(hrI, minI);
+    cout << "Horário de fim: ";
     formatarHorario(hrF, minF);
-    cout << "Salário: " << renda << endl; 
+    cout << "Salário: R$" << fixed << setprecision(2) << renda << endl; 
+    cout << "Grau de dificuldade: " << grauDificuldade << endl << endl;
 }
 
 void Tarefa::formatarHorario(int h, int m) {
