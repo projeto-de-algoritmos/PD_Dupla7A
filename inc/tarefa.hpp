@@ -7,10 +7,11 @@ class Tarefa {
     private: 
         int hrI, hrF, minI, minF;
         string descricao; 
+        double renda; 
+        int grauDificuldade; 
+    
     public:
-        Tarefa(int hrI, int hrF, int minI, int minF, string descricao);
+        Tarefa( string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau);
         void mostrarInfos();  
         void formatarHorario(int h, int min); 
-
-
 };

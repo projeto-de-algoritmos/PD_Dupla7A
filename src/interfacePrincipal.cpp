@@ -30,18 +30,19 @@ int InterfacePrincipal::getInt(string mensagem, int min, int max) {
     return valor;
 }
 
-InterfacePrincipal::InterfacePrincipal(){
-
-}
+InterfacePrincipal::InterfacePrincipal(){}
 
 void InterfacePrincipal::menuPrincipal() {
     while(true){
         cout << "(1) Nova tarefa" << endl;
         cout << "(2) Ver tarefas" << endl;
-        cout << "(3) Definir intervalo entre tarefas" << endl;
-        cout << "(4) Calcular a melhor escolha de tarefas" << endl;
+        cout << "(3) Exlcuir tarefa" << endl; 
+        cout << "(4) Excluir todas as tarefas" << endl; 
+        cout << "(5) Definir intervalo entre tarefas" << endl;
+        cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
+        cout << "(7) Mostrar conjunto mais fácil de tarefas" << endl; 
         cout << "(0) Fechar programa" << endl; 
-        int escolha = getInt("", 0,4);
+        int escolha = getInt("", 0,7);
         if(escolha == 1){
             novaTarefa(); 
         }
@@ -52,6 +53,15 @@ void InterfacePrincipal::menuPrincipal() {
             NovoIntervalo(); 
         }
         else if(escolha == 4){
+            
+        }
+        else if(escolha == 5){
+
+        }
+        else if(escolha == 6){
+
+        }
+        else if(escolha ==  7){
             
         }
         else

@@ -2,9 +2,14 @@
 #include <vector> 
 #include <string> 
 
+#include "tarefa.hpp" 
+
 using namespace std;
 
 class InterfacePrincipal {  
+    private:
+        Tarefa tarefas; 
+
     public: 
         InterfacePrincipal(); 
         string getString(string mensagem); 
@@ -13,4 +18,6 @@ class InterfacePrincipal {
         void novaTarefa(); 
         void verTarefas(); 
         void NovoIntervalo();  
+        void ExcluirTarefa(string descricao);
+        void LimparTarefas(); 
 };

@@ -1,11 +1,13 @@
 #include "tarefa.hpp"
 
-Tarefa::Tarefa(int hrI, int hrF, int minI, int minF, string descricao){
+Tarefa::Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau){
+    this->descricao = descricao;
     this->hrI = hrI;
     this->hrF = hrF; 
     this->minI = minI;
     this->minF = minF; 
-    this->descricao = descricao; 
+    this->renda = renda;  
+    this->grauDificuldade = grau;   
 }
 
 void Tarefa::mostrarInfos(){
@@ -13,6 +15,7 @@ void Tarefa::mostrarInfos(){
     cout << "Horário de início: ";
     formatarHorario(hrI, minI);
     formatarHorario(hrF, minF);
+    cout << "Salário: " << renda << endl; 
 }
 
 void Tarefa::formatarHorario(int h, int m) {
