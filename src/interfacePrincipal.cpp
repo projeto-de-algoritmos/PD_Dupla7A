@@ -52,7 +52,7 @@ void InterfacePrincipal::menuPrincipal() {
             NovoIntervalo(); 
         }
         else if(escolha == 4){
-
+            
         }
         else
             break; 
