@@ -76,10 +76,10 @@ void InterfacePrincipal::menuPrincipal() {
             verTarefas(); 
         }
         else if(escolha == 3){
-            NovoIntervalo(); 
+            excluirTarefa();
         }
         else if(escolha == 4){
-            
+            limparTarefas();
         }
         else if(escolha == 5){
 
@@ -113,15 +113,31 @@ void InterfacePrincipal::novaTarefa(){
 }
 
 void InterfacePrincipal::verTarefas(){
+    if(tarefas.empty())
+        spam("Não há tarefas cadastradas");
     for(int i = 0; i < (int)tarefas.size(); i++) {
         tarefas[i].mostrarInfos();
         cout << setw(50) << setfill('-') << "\n\n";
     }
 }
 
-void InterfacePrincipal::NovoIntervalo(){
+void InterfacePrincipal::novoIntervalo(){
 
 }
 
+void InterfacePrincipal::excluirTarefa() {
+    if(tarefas.empty()) {
+        spam("Não há tarefas cadastradas");
+        return;
+    }
+    for(int i = 0; i < (int)tarefas.size(); i++)
+        cout << "(" << i + 1 << ") " << tarefas[i].getDescricao() << endl;
+    int id = getInt("\nNúmero da tarefa para excluir: ", 1, tarefas.size());
+    tarefas.erase(tarefas.begin() + id - 1);
+    spam("Tarefa excluída com sucesso");
+}
 
-
+void InterfacePrincipal::limparTarefas() {
+    tarefas.clear();
+    spam("Todas as tarefas foram excluídas");
+}

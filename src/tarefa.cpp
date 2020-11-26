@@ -29,3 +29,7 @@ void Tarefa::formatarHorario(int h, int m) {
         cout << "0";
     cout << m << endl; 
 }
+
+string Tarefa::getDescricao() {
+    return descricao;
+}

@@ -11,7 +11,8 @@ class Tarefa {
         int grauDificuldade; 
     
     public:
-        Tarefa( string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau);
+        Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau);
         void mostrarInfos();  
         void formatarHorario(int h, int min); 
+        string getDescricao();
 };
