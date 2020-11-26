@@ -8,12 +8,13 @@ using namespace std;
 
 class InterfacePrincipal {  
     private:
-        Tarefa tarefas; 
+        vector <Tarefa> tarefas; 
 
     public: 
         InterfacePrincipal(); 
         string getString(string mensagem); 
         int getInt(string mensagem, int min, int max); 
+        double getDouble(string mensagem, double min); 
         void spam(string mensagem); 
         void menuPrincipal();
         void novaTarefa(); 

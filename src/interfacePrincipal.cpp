@@ -22,6 +22,23 @@ int InterfacePrincipal::getInt(string mensagem, int min, int max) {
         cin >> valor;
         if(cin.fail() || valor > max || valor < min) {
             cin.clear();
+            cout << endl << "Entrada inválida." << endl;
+            loop = true;
+        }
+        cin.ignore(32767, '\n');
+    }
+    return valor;
+}
+
+double InterfacePrincipal::getDouble(string mensagem, double min) {
+    double valor;
+    bool loop = true;
+    while(loop) {
+        cout << mensagem;
+        loop = false;
+        cin >> valor;
+        if(cin.fail() || valor < min) {
+            cin.clear();
             cout << "Entrada inválida." << endl;
             loop = true;
         }
@@ -31,23 +48,26 @@ int InterfacePrincipal::getInt(string mensagem, int min, int max) {
 }
 
 void InterfacePrincipal::spam(string mensagem){
-    system("clean || cls "); 
-    cout << mensagem << endl; 
+    system("clear||cls"); 
+    cout << mensagem << endl << endl; 
 
 }
-InterfacePrincipal::InterfacePrincipal(){}
+InterfacePrincipal::InterfacePrincipal(){
+    system("clear||cls");
+}
 
 void InterfacePrincipal::menuPrincipal() {
     while(true){
         cout << "(1) Nova tarefa" << endl;
         cout << "(2) Ver tarefas" << endl;
-        cout << "(3) Exlcuir tarefa" << endl; 
+        cout << "(3) Excluir tarefa" << endl; 
         cout << "(4) Excluir todas as tarefas" << endl; 
         cout << "(5) Definir intervalo entre tarefas" << endl;
         cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
         cout << "(7) Mostrar conjunto mais fácil de tarefas" << endl; 
         cout << "(0) Fechar programa" << endl; 
         int escolha = getInt("", 0,7);
+        system("clear||cls");
         if(escolha == 1){
             novaTarefa(); 
         }
@@ -76,7 +96,19 @@ void InterfacePrincipal::menuPrincipal() {
 }
 
 void InterfacePrincipal::novaTarefa(){
-    
+    string descricao = getString("Descrição da tarefa: ");
+    int hi = getInt("\nHora inicial: ", 0, 23);
+    int mi = getInt("\nMinuto inicial: ", 0, 59);
+    int hf = getInt("\nHora final: ", 0, 23);
+    int mf = getInt("\nMinuto final: ", 0, 59);
+    if(hi > hf || (hi == hf && mi >= mf)) {
+        spam("Tarefa não cadastrada (horário inválido)");
+        return;
+    }
+    double renda = getDouble("\nRenda da tarefa: ", 0.01);
+    int grau = getInt("\nGrau de dificuldade (1 - 10): ", 1, 10);
+    tarefas.push_back(Tarefa(descricao, hi, hf, mi, mf, renda, grau));
+    spam("Tarefa cadastrada com sucesso");
 }
 
 void InterfacePrincipal::verTarefas(){
