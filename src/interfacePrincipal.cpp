@@ -56,6 +56,8 @@ void InterfacePrincipal::spam(string mensagem){
 }
 InterfacePrincipal::InterfacePrincipal(){
     system("clear||cls");
+    hrIntervalo = 0;
+    minIntervalo = 0; 
 }
 
 void InterfacePrincipal::menuPrincipal() {
@@ -64,7 +66,7 @@ void InterfacePrincipal::menuPrincipal() {
         cout << "(2) Ver tarefas" << endl;
         cout << "(3) Excluir tarefa" << endl; 
         cout << "(4) Excluir todas as tarefas" << endl; 
-        cout << "(5) Definir intervalo entre tarefas" << endl;
+        cout << "(5) Definir intervalo entre tarefas. Atual: " << formatarHorario(hrIntervalo, minIntervalo) << endl;
         cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
         cout << "(7) Mostrar conjunto mais fácil de tarefas" << endl; 
         cout << "(0) Fechar programa" << endl; 
@@ -84,10 +86,11 @@ void InterfacePrincipal::menuPrincipal() {
           limparTarefas();
         }
         else if(escolha == 5){
-
+          novoIntervalo(); 
         }
         else if(escolha == 6){
-
+          ordenarTarefas(); 
+          cout << p(0) << endl;
         }
         else if(escolha ==  7){
 
@@ -124,7 +127,10 @@ void InterfacePrincipal::verTarefas(){
 }
 
 void InterfacePrincipal::novoIntervalo(){
-
+    cout << "Redefinindo o horário de intervalo" << endl << endl;
+    hrIntervalo = getInt("Hora: ", 0, 23);
+    minIntervalo = getInt("Minuto: ", 0, 59);
+    spam("O intervalo foi atualizado para" + formatarHorario(hrIntervalo, minIntervalo)); 
 }
 
 void InterfacePrincipal::excluirTarefa() {
@@ -152,4 +158,40 @@ void InterfacePrincipal::ordenarTarefas(){
           return(a.getminF() < b.getminF());
       return true;   
   }); 
+}
+
+string InterfacePrincipal::formatarHorario(int h, int m) {
+  string intervalo = ""; 
+    if(h < 10)
+         intervalo += "0";
+    intervalo += (to_string(h) + ":");
+    if(m < 10)
+        intervalo += "0";
+    intervalo += (to_string(m));  
+    return intervalo; 
+}
+
+int InterfacePrincipal::p(int j){
+  for(int i = j+1; i< (int)tarefas.size(); i++){
+      if(isCompativel(tarefas[i], tarefas[j]))
+        return i;  
+  }
+  return -1;
+}
+
+bool InterfacePrincipal::isCompativel(Tarefa a, Tarefa b){
+  int horaDiponivel, minDisponivel; 
+  horaDiponivel = a.getHrF() + hrIntervalo; 
+  minDisponivel = a.getminF() + minIntervalo; 
+  if(minDisponivel > 59){
+    horaDiponivel+=1;
+    minDisponivel = minDisponivel%60; 
+  }
+  if(b.getHrI() < horaDiponivel)
+    return false; 
+  else if(b.getHrI() == horaDiponivel){
+    if(b.getMinI() < minDisponivel)
+      return false; 
+  }
+  return true; 
 }

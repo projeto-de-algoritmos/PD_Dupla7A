@@ -9,6 +9,7 @@ using namespace std;
 class InterfacePrincipal {
     private:
         vector <Tarefa> tarefas;
+        int hrIntervalo, minIntervalo; 
 
     public:
         InterfacePrincipal();
@@ -22,5 +23,8 @@ class InterfacePrincipal {
         void novoIntervalo();
         void excluirTarefa();
         void limparTarefas();
-        void ordenarTarefas(); 
+        void ordenarTarefas();
+        int p(int j);
+        bool isCompativel(Tarefa a, Tarefa b);   
+        string formatarHorario(int h, int min);
 };
