@@ -1,5 +1,6 @@
 #include "InterfacePrincipal.hpp"
 #include <iomanip>
+#include <algorithm> 
 
 string InterfacePrincipal::getString(string mensagem) {
     string entrada;
@@ -75,6 +76,7 @@ void InterfacePrincipal::menuPrincipal() {
           novaTarefa(); 
         }
         else if(escolha == 2){
+          ordenarTarefas(); 
           verTarefas(); 
         }
         else if(escolha == 3){
@@ -87,7 +89,8 @@ void InterfacePrincipal::menuPrincipal() {
           novoIntervalo(); 
         }
         else if(escolha == 6){
-
+          ordenarTarefas(); 
+          cout << p(0) << endl;
         }
         else if(escolha ==  7){
 
@@ -126,7 +129,7 @@ void InterfacePrincipal::verTarefas(){
 void InterfacePrincipal::novoIntervalo(){
     cout << "Redefinindo o horário de intervalo" << endl << endl;
     hrIntervalo = getInt("Hora: ", 0, 23);
-    minIntervalo = getInt("Minuto: ", 0, 23);
+    minIntervalo = getInt("Minuto: ", 0, 59);
     spam("O intervalo foi atualizado para" + formatarHorario(hrIntervalo, minIntervalo)); 
 }
 
@@ -147,6 +150,16 @@ void InterfacePrincipal::limparTarefas() {
     spam("Todas as tarefas foram excluídas");
 }
 
+void InterfacePrincipal::ordenarTarefas(){
+  sort(tarefas.begin(), tarefas.end(), [](Tarefa a, Tarefa b){
+      if(a.getHrF() < b.getHrF())
+        return false; 
+      if(a.getHrF() == b.getHrF())
+          return(a.getminF() < b.getminF());
+      return true;   
+  }); 
+}
+
 string InterfacePrincipal::formatarHorario(int h, int m) {
   string intervalo = ""; 
     if(h < 10)
@@ -156,4 +169,29 @@ string InterfacePrincipal::formatarHorario(int h, int m) {
         intervalo += "0";
     intervalo += (to_string(m));  
     return intervalo; 
+}
+
+int InterfacePrincipal::p(int j){
+  for(int i = j+1; i< (int)tarefas.size(); i++){
+      if(isCompativel(tarefas[i], tarefas[j]))
+        return i;  
+  }
+  return -1;
+}
+
+bool InterfacePrincipal::isCompativel(Tarefa a, Tarefa b){
+  int horaDiponivel, minDisponivel; 
+  horaDiponivel = a.getHrF() + hrIntervalo; 
+  minDisponivel = a.getminF() + minIntervalo; 
+  if(minDisponivel > 59){
+    horaDiponivel+=1;
+    minDisponivel = minDisponivel%60; 
+  }
+  if(b.getHrI() < horaDiponivel)
+    return false; 
+  else if(b.getHrI() == horaDiponivel){
+    if(b.getMinI() < minDisponivel)
+      return false; 
+  }
+  return true; 
 }

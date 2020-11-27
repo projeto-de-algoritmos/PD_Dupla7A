@@ -23,5 +23,8 @@ class InterfacePrincipal {
         void novoIntervalo();
         void excluirTarefa();
         void limparTarefas();
+        void ordenarTarefas();
+        int p(int j);
+        bool isCompativel(Tarefa a, Tarefa b);   
         string formatarHorario(int h, int min);
 };
