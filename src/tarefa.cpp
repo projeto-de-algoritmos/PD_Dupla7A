@@ -33,3 +33,19 @@ void Tarefa::formatarHorario(int h, int m) {
 string Tarefa::getDescricao() {
     return descricao;
 }
+
+int Tarefa::getHrI(){
+  return hrI; 
+}
+
+int Tarefa::getMinI(){
+  return minI; 
+}
+
+int Tarefa::getHrF(){
+  return hrF; 
+}
+
+int Tarefa::getminF(){
+  return minF; 
+}

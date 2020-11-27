@@ -15,4 +15,8 @@ class Tarefa {
         void mostrarInfos();  
         void formatarHorario(int h, int min); 
         string getDescricao();
+        int getHrI();
+        int getMinI();
+        int getHrF();
+        int getminF();
 };

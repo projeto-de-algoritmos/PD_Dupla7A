@@ -22,4 +22,5 @@ class InterfacePrincipal {
         void novoIntervalo();
         void excluirTarefa();
         void limparTarefas();
+        void ordenarTarefas(); 
 };

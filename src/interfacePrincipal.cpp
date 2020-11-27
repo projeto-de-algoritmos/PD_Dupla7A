@@ -1,5 +1,6 @@
 #include "InterfacePrincipal.hpp"
 #include <iomanip>
+#include <algorithm> 
 
 string InterfacePrincipal::getString(string mensagem) {
     string entrada;
@@ -70,16 +71,17 @@ void InterfacePrincipal::menuPrincipal() {
         int escolha = getInt("", 0,7);
         system("clear||cls");
         if(escolha == 1){
-            novaTarefa(); 
+          novaTarefa(); 
         }
         else if(escolha == 2){
-            verTarefas(); 
+          ordenarTarefas(); 
+          verTarefas(); 
         }
         else if(escolha == 3){
-            excluirTarefa();
+          excluirTarefa();
         }
         else if(escolha == 4){
-            limparTarefas();
+          limparTarefas();
         }
         else if(escolha == 5){
 
@@ -140,4 +142,14 @@ void InterfacePrincipal::excluirTarefa() {
 void InterfacePrincipal::limparTarefas() {
     tarefas.clear();
     spam("Todas as tarefas foram excluídas");
+}
+
+void InterfacePrincipal::ordenarTarefas(){
+  sort(tarefas.begin(), tarefas.end(), [](Tarefa a, Tarefa b){
+      if(a.getHrF() < b.getHrF())
+        return false; 
+      if(a.getHrF() == b.getHrF())
+          return(a.getminF() < b.getminF());
+      return true;   
+  }); 
 }
