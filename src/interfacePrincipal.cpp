@@ -55,6 +55,8 @@ void InterfacePrincipal::spam(string mensagem){
 }
 InterfacePrincipal::InterfacePrincipal(){
     system("clear||cls");
+    hrIntervalo = 0;
+    minIntervalo = 0; 
 }
 
 void InterfacePrincipal::menuPrincipal() {
@@ -63,26 +65,26 @@ void InterfacePrincipal::menuPrincipal() {
         cout << "(2) Ver tarefas" << endl;
         cout << "(3) Excluir tarefa" << endl; 
         cout << "(4) Excluir todas as tarefas" << endl; 
-        cout << "(5) Definir intervalo entre tarefas" << endl;
+        cout << "(5) Definir intervalo entre tarefas. Atual: " << formatarHorario(hrIntervalo, minIntervalo) << endl;
         cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
         cout << "(7) Mostrar conjunto mais fácil de tarefas" << endl; 
         cout << "(0) Fechar programa" << endl; 
         int escolha = getInt("", 0,7);
         system("clear||cls");
         if(escolha == 1){
-            novaTarefa(); 
+          novaTarefa(); 
         }
         else if(escolha == 2){
-            verTarefas(); 
+          verTarefas(); 
         }
         else if(escolha == 3){
-            excluirTarefa();
+          excluirTarefa();
         }
         else if(escolha == 4){
-            limparTarefas();
+          limparTarefas();
         }
         else if(escolha == 5){
-
+          novoIntervalo(); 
         }
         else if(escolha == 6){
 
@@ -122,7 +124,10 @@ void InterfacePrincipal::verTarefas(){
 }
 
 void InterfacePrincipal::novoIntervalo(){
-
+    cout << "Redefinindo o horário de intervalo" << endl << endl;
+    hrIntervalo = getInt("Hora: ", 0, 23);
+    minIntervalo = getInt("Minuto: ", 0, 23);
+    spam("O intervalo foi atualizado para" + formatarHorario(hrIntervalo, minIntervalo)); 
 }
 
 void InterfacePrincipal::excluirTarefa() {
@@ -140,4 +145,15 @@ void InterfacePrincipal::excluirTarefa() {
 void InterfacePrincipal::limparTarefas() {
     tarefas.clear();
     spam("Todas as tarefas foram excluídas");
+}
+
+string InterfacePrincipal::formatarHorario(int h, int m) {
+  string intervalo = ""; 
+    if(h < 10)
+         intervalo += "0";
+    intervalo += (to_string(h) + ":");
+    if(m < 10)
+        intervalo += "0";
+    intervalo += (to_string(m));  
+    return intervalo; 
 }
