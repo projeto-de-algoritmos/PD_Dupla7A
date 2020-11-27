@@ -23,8 +23,10 @@ class InterfacePrincipal {
         void novoIntervalo();
         void excluirTarefa();
         void limparTarefas();
-        void ordenarTarefas();
-        int p(int j);
+        void ordenarTarefas(vector <Tarefa> &tarefas);
+        int computeP(vector <Tarefa> &tarefas, int j);
         bool isCompativel(Tarefa a, Tarefa b);   
         string formatarHorario(int h, int min);
+        double computeOptRenda(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j);
+        void conjuntoRentavel();
 };

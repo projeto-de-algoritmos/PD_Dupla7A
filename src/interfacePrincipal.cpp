@@ -66,31 +66,24 @@ void InterfacePrincipal::menuPrincipal() {
         cout << "(2) Ver tarefas" << endl;
         cout << "(3) Excluir tarefa" << endl; 
         cout << "(4) Excluir todas as tarefas" << endl; 
-        cout << "(5) Definir intervalo entre tarefas. Atual: " << formatarHorario(hrIntervalo, minIntervalo) << endl;
+        cout << "(5) Definir intervalo entre tarefas (Atual: " << formatarHorario(hrIntervalo, minIntervalo) << ")" << endl;
         cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
         cout << "(7) Mostrar conjunto mais fácil de tarefas" << endl; 
         cout << "(0) Fechar programa" << endl; 
         int escolha = getInt("", 0,7);
         system("clear||cls");
-        if(escolha == 1){
-          novaTarefa(); 
-        }
-        else if(escolha == 2){
-          ordenarTarefas(); 
-          verTarefas(); 
-        }
-        else if(escolha == 3){
-          excluirTarefa();
-        }
-        else if(escolha == 4){
-          limparTarefas();
-        }
-        else if(escolha == 5){
-          novoIntervalo(); 
-        }
+        if(escolha == 1)
+            novaTarefa(); 
+        else if(escolha == 2)
+            verTarefas(); 
+        else if(escolha == 3)
+            excluirTarefa();
+        else if(escolha == 4)
+            limparTarefas();
+        else if(escolha == 5)
+            novoIntervalo(); 
         else if(escolha == 6){
-          ordenarTarefas(); 
-          cout << p(0) << endl;
+          conjuntoRentavel();
         }
         else if(escolha ==  7){
 
@@ -130,7 +123,7 @@ void InterfacePrincipal::novoIntervalo(){
     cout << "Redefinindo o horário de intervalo" << endl << endl;
     hrIntervalo = getInt("Hora: ", 0, 23);
     minIntervalo = getInt("Minuto: ", 0, 59);
-    spam("O intervalo foi atualizado para" + formatarHorario(hrIntervalo, minIntervalo)); 
+    spam("O intervalo foi atualizado para " + formatarHorario(hrIntervalo, minIntervalo)); 
 }
 
 void InterfacePrincipal::excluirTarefa() {
@@ -150,14 +143,15 @@ void InterfacePrincipal::limparTarefas() {
     spam("Todas as tarefas foram excluídas");
 }
 
-void InterfacePrincipal::ordenarTarefas(){
-  sort(tarefas.begin(), tarefas.end(), [](Tarefa a, Tarefa b){
-      if(a.getHrF() < b.getHrF())
-        return false; 
-      if(a.getHrF() == b.getHrF())
-          return(a.getminF() < b.getminF());
-      return true;   
-  }); 
+void InterfacePrincipal::ordenarTarefas(vector <Tarefa> &tarefas){
+    sort(tarefas.begin(), tarefas.end(), [](Tarefa a, Tarefa b){
+            if(a.getHrF() < b.getHrF())
+                return true;
+            if(a.getHrF() == b.getHrF())
+                return (a.getminF() <= b.getminF());
+            return false;
+        }
+    );
 }
 
 string InterfacePrincipal::formatarHorario(int h, int m) {
@@ -171,8 +165,8 @@ string InterfacePrincipal::formatarHorario(int h, int m) {
     return intervalo; 
 }
 
-int InterfacePrincipal::p(int j){
-  for(int i = j+1; i< (int)tarefas.size(); i++){
+int InterfacePrincipal::computeP(vector <Tarefa> &tarefas, int j){
+  for(int i = j - 1; i >= 0; i--) {
       if(isCompativel(tarefas[i], tarefas[j]))
         return i;  
   }
@@ -180,18 +174,37 @@ int InterfacePrincipal::p(int j){
 }
 
 bool InterfacePrincipal::isCompativel(Tarefa a, Tarefa b){
-  int horaDiponivel, minDisponivel; 
-  horaDiponivel = a.getHrF() + hrIntervalo; 
-  minDisponivel = a.getminF() + minIntervalo; 
-  if(minDisponivel > 59){
-    horaDiponivel+=1;
-    minDisponivel = minDisponivel%60; 
-  }
-  if(b.getHrI() < horaDiponivel)
-    return false; 
-  else if(b.getHrI() == horaDiponivel){
-    if(b.getMinI() < minDisponivel)
-      return false; 
-  }
-  return true; 
+    int horaDiponivel, minDisponivel; 
+    horaDiponivel = a.getHrF() + hrIntervalo; 
+    minDisponivel = a.getminF() + minIntervalo; 
+    if(minDisponivel > 59){
+        horaDiponivel+=1;
+        minDisponivel = minDisponivel%60; 
+    }
+    if(b.getHrI() < horaDiponivel)
+        return false; 
+    else if(b.getHrI() == horaDiponivel){
+        if(b.getMinI() < minDisponivel)
+            return false; 
+    }
+    return true; 
+}
+
+double InterfacePrincipal::computeOptRenda(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j) {
+    if(M[j] == -1)
+        M[j] = max(tarefas[j].getRenda() + computeOptRenda(tarefas, M, p, p[j]), computeOptRenda(tarefas, M, p, j - 1));
+    return M[j];
+}
+
+void InterfacePrincipal::conjuntoRentavel() {
+    if(tarefas.empty()) {
+        spam("Não há tarefas cadastradas");
+        return;
+    }
+    vector <Tarefa> tarefas = this->tarefas;
+    vector <int> M(tarefas.size(), -1), p(tarefas.size(), -1);
+    ordenarTarefas(tarefas);
+    for(int i = tarefas.size() - 1; i > 0 ; i--)
+        p[i] = computeP(tarefas, i);
+    cout << fixed << setprecision(2) << "O maior salário possível é: R$" << computeOptRenda(tarefas, M, p, tarefas.size() - 1) << endl << endl;
 }

@@ -35,17 +35,21 @@ string Tarefa::getDescricao() {
 }
 
 int Tarefa::getHrI(){
-  return hrI; 
+  	return hrI; 
 }
 
 int Tarefa::getMinI(){
-  return minI; 
+  	return minI; 
 }
 
 int Tarefa::getHrF(){
-  return hrF; 
+  	return hrF; 
 }
 
 int Tarefa::getminF(){
-  return minF; 
+  	return minF; 
+}
+
+double Tarefa::getRenda() {
+	return renda;
 }

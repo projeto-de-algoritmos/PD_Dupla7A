@@ -19,4 +19,5 @@ class Tarefa {
         int getMinI();
         int getHrF();
         int getminF();
+        double getRenda();
 };
