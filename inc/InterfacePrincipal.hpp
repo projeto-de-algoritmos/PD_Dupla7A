@@ -29,4 +29,5 @@ class InterfacePrincipal {
         string formatarHorario(int h, int min);
         double computeOptRenda(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j);
         void conjuntoRentavel();
+        void findSolution(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j); 
 };

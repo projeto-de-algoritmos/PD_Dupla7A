@@ -96,16 +96,16 @@ void InterfacePrincipal::menuPrincipal() {
 
 void InterfacePrincipal::novaTarefa(){
     string descricao = getString("Descrição da tarefa: ");
-    int hi = getInt("\nHora inicial: ", 0, 23);
-    int mi = getInt("\nMinuto inicial: ", 0, 59);
-    int hf = getInt("\nHora final: ", 0, 23);
-    int mf = getInt("\nMinuto final: ", 0, 59);
+    int hi = getInt("Hora inicial: ", 0, 23);
+    int mi = getInt("Minuto inicial: ", 0, 59);
+    int hf = getInt("Hora final: ", 0, 23);
+    int mf = getInt("Minuto final: ", 0, 59);
     if(hi > hf || (hi == hf && mi >= mf)) {
         spam("Tarefa não cadastrada (horário inválido)");
         return;
     }
-    double renda = getDouble("\nRenda da tarefa: ", 0.01);
-    int grau = getInt("\nGrau de dificuldade (1 - 10): ", 1, 10);
+    double renda = getDouble("Renda da tarefa: ", 0.01);
+    int grau = getInt("Grau de dificuldade (1 - 10): ", 1, 10);
     tarefas.push_back(Tarefa(descricao, hi, hf, mi, mf, renda, grau));
     spam("Tarefa cadastrada com sucesso");
 }
@@ -207,4 +207,16 @@ void InterfacePrincipal::conjuntoRentavel() {
     for(int i = tarefas.size() - 1; i > 0 ; i--)
         p[i] = computeP(tarefas, i);
     cout << fixed << setprecision(2) << "O maior salário possível é: R$" << computeOptRenda(tarefas, M, p, tarefas.size() - 1) << endl << endl;
+    findSolution(tarefas, M, p, tarefas.size() - 1); 
+}
+
+void InterfacePrincipal::findSolution(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j){
+  if(j == -1)
+    return;
+  if(tarefas[j].getRenda() + M[p[j]] > M[j-1]){
+    tarefas[j].mostrarInfos();
+    findSolution(tarefas, M, p, p[j]); 
+  } 
+  else
+    findSolution(tarefas, M, p, j-1); 
 }
