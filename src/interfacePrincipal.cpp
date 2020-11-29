@@ -68,7 +68,6 @@ void InterfacePrincipal::menuPrincipal() {
         cout << "(4) Excluir todas as tarefas" << endl; 
         cout << "(5) Definir intervalo entre tarefas (Atual: " << formatarHorario(hrIntervalo, minIntervalo) << ")" << endl;
         cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
-        cout << "(7) Mostrar conjunto mais fácil de tarefas" << endl; 
         cout << "(0) Fechar programa" << endl; 
         int escolha = getInt("", 0,7);
         system("clear||cls");
@@ -82,12 +81,8 @@ void InterfacePrincipal::menuPrincipal() {
             limparTarefas();
         else if(escolha == 5)
             novoIntervalo(); 
-        else if(escolha == 6){
-          conjuntoRentavel();
-        }
-        else if(escolha ==  7){
-
-        }
+        else if(escolha == 6)
+            conjuntoRentavel();
         else
             break; 
     }
@@ -191,6 +186,8 @@ bool InterfacePrincipal::isCompativel(Tarefa a, Tarefa b){
 }
 
 double InterfacePrincipal::computeOptRenda(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j) {
+    if(j == -1)
+        return 0;
     if(M[j] == -1)
         M[j] = max(tarefas[j].getRenda() + computeOptRenda(tarefas, M, p, p[j]), computeOptRenda(tarefas, M, p, j - 1));
     return M[j];
@@ -211,12 +208,11 @@ void InterfacePrincipal::conjuntoRentavel() {
 }
 
 void InterfacePrincipal::findSolution(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j){
-  if(j == -1)
-    return;
-  if(tarefas[j].getRenda() + M[p[j]] > M[j-1]){
-    tarefas[j].mostrarInfos();
-    findSolution(tarefas, M, p, p[j]); 
-  } 
-  else
-    findSolution(tarefas, M, p, j-1); 
+    if(j == -1)
+        return;
+    if(tarefas[j].getRenda() + M[p[j]] > M[j-1]){
+        tarefas[j].mostrarInfos();
+        findSolution(tarefas, M, p, p[j]); 
+    } else
+        findSolution(tarefas, M, p, j-1); 
 }
