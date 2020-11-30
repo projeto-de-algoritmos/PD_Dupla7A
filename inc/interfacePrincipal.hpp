@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <string>
 
 #include "tarefa.hpp"
 
@@ -25,9 +24,9 @@ class InterfacePrincipal {
         void limparTarefas();
         void ordenarTarefas(vector <Tarefa> &tarefas);
         int computeP(vector <Tarefa> &tarefas, int j);
-        bool isCompativel(Tarefa a, Tarefa b);   
+        bool isCompativel(Tarefa &a, Tarefa &b);   
         string formatarHorario(int h, int min);
-        double computeOptRenda(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j);
+        double computeOptRenda(vector <Tarefa> &tarefas, vector <double> &M, vector <int> &p, int j);
         void conjuntoRentavel();
-        void findSolution(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j); 
+        void findSolution(vector <Tarefa> &tarefas, vector <double> &M, vector <int> &p, int j); 
 };

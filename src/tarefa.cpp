@@ -1,14 +1,13 @@
 #include "tarefa.hpp"
 #include <iomanip>
 
-Tarefa::Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau){
+Tarefa::Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda){
     this->descricao = descricao;
     this->hrI = hrI;
     this->hrF = hrF; 
     this->minI = minI;
     this->minF = minF; 
     this->renda = renda;  
-    this->grauDificuldade = grau;   
 }
 
 void Tarefa::mostrarInfos(){
@@ -17,8 +16,7 @@ void Tarefa::mostrarInfos(){
     formatarHorario(hrI, minI);
     cout << "Horário de fim: ";
     formatarHorario(hrF, minF);
-    cout << "Salário: R$" << fixed << setprecision(2) << renda << endl; 
-    cout << "Grau de dificuldade: " << grauDificuldade << endl << endl;
+    cout << "Salário: R$" << fixed << setprecision(2) << renda << endl << endl; 
 }
 
 void Tarefa::formatarHorario(int h, int m) {

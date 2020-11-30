@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string> 
 
 using namespace std; 
 
@@ -8,10 +7,9 @@ class Tarefa {
         int hrI, hrF, minI, minF;
         string descricao; 
         double renda; 
-        int grauDificuldade; 
     
     public:
-        Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda, int grau);
+        Tarefa(string descricao, int hrI, int hrF, int minI, int minF, double renda);
         void mostrarInfos();  
         void formatarHorario(int h, int min); 
         string getDescricao();

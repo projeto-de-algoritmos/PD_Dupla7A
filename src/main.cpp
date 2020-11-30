@@ -1,4 +1,4 @@
-#include "InterfacePrincipal.hpp"
+#include "interfacePrincipal.hpp"
 
 int main(){
     InterfacePrincipal interfacePrincipal;

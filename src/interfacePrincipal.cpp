@@ -1,4 +1,4 @@
-#include "InterfacePrincipal.hpp"
+#include "interfacePrincipal.hpp"
 #include <iomanip>
 #include <algorithm> 
 
@@ -24,7 +24,7 @@ int InterfacePrincipal::getInt(string mensagem, int min, int max) {
         cin >> valor;
         if(cin.fail() || valor > max || valor < min) {
             cin.clear();
-            cout << endl << "Entrada inválida." << endl;
+            cout << endl << "Entrada inválida" << endl;
             loop = true;
         }
         cin.ignore(32767, '\n');
@@ -41,7 +41,7 @@ double InterfacePrincipal::getDouble(string mensagem, double min) {
         cin >> valor;
         if(cin.fail() || valor < min) {
             cin.clear();
-            cout << "Entrada inválida." << endl;
+            cout << "Entrada inválida" << endl;
             loop = true;
         }
         cin.ignore(32767, '\n');
@@ -54,6 +54,7 @@ void InterfacePrincipal::spam(string mensagem){
     cout << mensagem << endl << endl; 
 
 }
+
 InterfacePrincipal::InterfacePrincipal(){
     system("clear||cls");
     hrIntervalo = 0;
@@ -69,7 +70,7 @@ void InterfacePrincipal::menuPrincipal() {
         cout << "(5) Definir intervalo entre tarefas (Atual: " << formatarHorario(hrIntervalo, minIntervalo) << ")" << endl;
         cout << "(6) Mostrar conjunto mais rentável de tarefas" << endl;
         cout << "(0) Fechar programa" << endl; 
-        int escolha = getInt("", 0,7);
+        int escolha = getInt("", 0,6);
         system("clear||cls");
         if(escolha == 1)
             novaTarefa(); 
@@ -86,7 +87,6 @@ void InterfacePrincipal::menuPrincipal() {
         else
             break; 
     }
-
 }
 
 void InterfacePrincipal::novaTarefa(){
@@ -100,8 +100,7 @@ void InterfacePrincipal::novaTarefa(){
         return;
     }
     double renda = getDouble("Renda da tarefa: ", 0.01);
-    int grau = getInt("Grau de dificuldade (1 - 10): ", 1, 10);
-    tarefas.push_back(Tarefa(descricao, hi, hf, mi, mf, renda, grau));
+    tarefas.push_back(Tarefa(descricao, hi, hf, mi, mf, renda));
     spam("Tarefa cadastrada com sucesso");
 }
 
@@ -139,7 +138,7 @@ void InterfacePrincipal::limparTarefas() {
 }
 
 void InterfacePrincipal::ordenarTarefas(vector <Tarefa> &tarefas){
-    sort(tarefas.begin(), tarefas.end(), [](Tarefa a, Tarefa b){
+    sort(tarefas.begin(), tarefas.end(), [](Tarefa &a, Tarefa &b){
             if(a.getHrF() < b.getHrF())
                 return true;
             if(a.getHrF() == b.getHrF())
@@ -150,7 +149,7 @@ void InterfacePrincipal::ordenarTarefas(vector <Tarefa> &tarefas){
 }
 
 string InterfacePrincipal::formatarHorario(int h, int m) {
-  string intervalo = ""; 
+    string intervalo = ""; 
     if(h < 10)
          intervalo += "0";
     intervalo += (to_string(h) + ":");
@@ -161,14 +160,14 @@ string InterfacePrincipal::formatarHorario(int h, int m) {
 }
 
 int InterfacePrincipal::computeP(vector <Tarefa> &tarefas, int j){
-  for(int i = j - 1; i >= 0; i--) {
-      if(isCompativel(tarefas[i], tarefas[j]))
-        return i;  
-  }
-  return -1;
+    for(int i = j - 1; i >= 0; i--) {
+        if(isCompativel(tarefas[i], tarefas[j]))
+            return i;  
+    }
+    return -1;
 }
 
-bool InterfacePrincipal::isCompativel(Tarefa a, Tarefa b){
+bool InterfacePrincipal::isCompativel(Tarefa &a, Tarefa &b){
     int horaDiponivel, minDisponivel; 
     horaDiponivel = a.getHrF() + hrIntervalo; 
     minDisponivel = a.getminF() + minIntervalo; 
@@ -185,7 +184,7 @@ bool InterfacePrincipal::isCompativel(Tarefa a, Tarefa b){
     return true; 
 }
 
-double InterfacePrincipal::computeOptRenda(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j) {
+double InterfacePrincipal::computeOptRenda(vector <Tarefa> &tarefas, vector <double> &M, vector <int> &p, int j) {
     if(j == -1)
         return 0;
     if(M[j] == -1)
@@ -199,7 +198,8 @@ void InterfacePrincipal::conjuntoRentavel() {
         return;
     }
     vector <Tarefa> tarefas = this->tarefas;
-    vector <int> M(tarefas.size(), -1), p(tarefas.size(), -1);
+    vector <double> M(tarefas.size(), -1);
+    vector <int> p(tarefas.size(), -1);
     ordenarTarefas(tarefas);
     for(int i = tarefas.size() - 1; i > 0 ; i--)
         p[i] = computeP(tarefas, i);
@@ -207,7 +207,7 @@ void InterfacePrincipal::conjuntoRentavel() {
     findSolution(tarefas, M, p, tarefas.size() - 1); 
 }
 
-void InterfacePrincipal::findSolution(vector <Tarefa> &tarefas, vector <int> &M, vector <int> &p, int j){
+void InterfacePrincipal::findSolution(vector <Tarefa> &tarefas, vector <double> &M, vector <int> &p, int j){
     if(j == -1)
         return;
     if(tarefas[j].getRenda() + M[p[j]] > M[j-1]){
